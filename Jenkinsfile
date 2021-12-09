@@ -15,10 +15,10 @@ pipeline {
                 remote.user = userName
                 remote.identityFile = identity
                 stage("Install InSpec complianc and Linux baseline") {
-                  sshCommand remote: remote, failOnError: false, sudo: true, command: 'if [ `inspec | echo $? -ne 0` ]; then curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec; sudo -i; cd /root; git clone https://github.com/dev-sec/linux-baseline.git; else echo "Inspec already installed"; sudo -i; cd /root; git clone https://github.com/dev-sec/linux-baseline.git; fi'
+                  sshCommand remote: remote, failOnError: false, sudo: true, command: 'if [ `inspec | echo $? -ne 0` ]; then curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec; mkdir ~/folder1; sleep 5; git clone https://github.com/dev-sec/linux-baseline.git ~/folder1; else echo "Inspec already installed"; mkdir ~/folder1; sleep 5; git clone https://github.com/dev-sec/linux-baseline.git ~/folder1; fi'
               }
                 stage("Scan with InSpec") {
-                  sshCommand remote: remote, failOnError: false, sudo: true, command: 'inspec exec /root/linux-baseline/'
+                  sshCommand remote: remote, failOnError: false, sudo: true, command: 'inspec exec /root/linux-baseline/ && rm -rf /home/cloud_user/folder1'
             
               }
               stage("Install Ansible") {
