@@ -15,7 +15,7 @@ pipeline {
                 remote.user = userName
                 remote.identityFile = identity
                 stage("Install InSpec complianc and Linux baseline") {
-                  sshCommand remote: remote, sudo: true, command: 'curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec && cd /root'
+                  sshCommand remote: remote, sudo: true, command: 'curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec && sudo -i && cd /root'
                   sshCommand remote: remote, sudo: true, command: 'git clone https://github.com/dev-sec/linux-baseline.git'
               }
                 stage("Scan with InSpec") {
