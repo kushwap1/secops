@@ -22,10 +22,6 @@ pipeline {
                   sshCommand remote: remote, failOnError: false, sudo: true, command: 'inspec exec /home/cloud_user/linux-baseline/; sleep 10; rm -rf /home/cloud_user/linux-baseline'
 
               }
-                stage("Install Ansible") {
-                  writeFile file: 'ansible.sh', text: 'if [ `ansible | echo $? -ne 0` ]; then apt-get install ansible; echo 'Ansible Installed successfully'; else echo "Ansible already installed"; fi'
-                  sshScript remote: remote, failOnError: false, script: "ansible.sh"
-              }
             }
           }
        }
