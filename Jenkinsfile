@@ -19,7 +19,7 @@ pipeline {
                   sshScript remote: remote, failOnError: false, script: "secops.sh"
               }
                 stage("Scan with InSpec") {
-                  sshCommand remote: remote, failOnError: false, sudo: true, command: 'inspec exec /home/cloud_user/linux-baseline/ && rm -rf /home/cloud_user/linux-baseline'
+                  sshCommand remote: remote, failOnError: false, sudo: true, command: 'inspec exec /home/cloud_user/linux-baseline/; sleep 10; rm -rf /home/cloud_user/linux-baseline'
 
               }
                 stage("Install Ansible") {
