@@ -18,7 +18,12 @@ pipeline {
                   sshCommand remote: remote, failOnError: false, sudo: true, command: 'inspec && if [ $? -ne 0 ]; then curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec; else echo "Inspec already installed"; fi'
               }
                 stage("Scan with InSpec") {
-                  sshCommand remote: remote, sudo: true, command: 'inspec exec /root/linux-baseline/'
+                  sshCommand remote: remote, failOnError: false, sudo: true, command: 'inspec exec /root/linux-baseline/'
+            
+              }
+              stage("Install Ansible") {
+                  sshCommand remote: remote, failOnError: false, sudo: true, command: 'ansible && if [ $? -ne 0 ]; then apt-get install ansible && echo "Ansible Installed successfully"; else echo "Ansible already installed"; fi'
+
               }
             }
           }
